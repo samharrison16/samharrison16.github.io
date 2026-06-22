@@ -13,9 +13,9 @@
   --bark:       #3A2E22;
   --line:       #1F3A2E22;
 
-  --font-display: "Fraunces", "Georgia", serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Consolas", ui-monospace, monospace;
 
   --max-w: 920px;
   --radius: 3px;
@@ -58,58 +58,72 @@ a:focus-visible {
 img { max-width: 100%; display: block; }
 
 /* =========================================================
-   Nav
+   Layout shell — sidebar nav + content column
+   ========================================================= */
+.page-shell {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* =========================================================
+   Sidebar nav
    ========================================================= */
 .site-nav {
   position: sticky;
   top: 0;
-  z-index: 20;
-  background: var(--cream);
-  border-bottom: 1px solid var(--line);
-}
-
-.site-nav-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 1.1rem 1.5rem;
+  height: 100vh;
+  padding: 3rem 1.5rem 2rem 1.5rem;
+  border-right: 1px solid var(--line);
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 2.4rem;
 }
 
 .site-nav .brand {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
+  line-height: 1.25;
   color: var(--forest);
   border-bottom: none;
-  letter-spacing: 0.01em;
 }
 .site-nav .brand:hover { color: var(--clay); border-bottom: none; }
 
 .site-nav ul {
   display: flex;
-  gap: 1.75rem;
+  flex-direction: column;
+  gap: 0.95rem;
   list-style: none;
   margin: 0;
   padding: 0;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .site-nav a {
-  color: var(--forest);
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
+  color: var(--bark);
+  border-bottom: none;
+  border-left: 2px solid transparent;
+  padding-left: 0.85rem;
+  display: block;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
-.site-nav a:hover,
-.site-nav a[aria-current="page"] {
+.site-nav a:hover {
   color: var(--clay);
-  border-color: var(--clay);
+  border-left-color: var(--clay);
 }
+.site-nav a[aria-current="page"] {
+  color: var(--forest);
+  border-left-color: var(--moss);
+  font-weight: 600;
+}
+
+.content-col { min-width: 0; }
 
 /* =========================================================
    Contour motif — signature element
@@ -211,19 +225,7 @@ section.block + section.block {
 }
 
 .section-head {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
   margin-bottom: 1.6rem;
-}
-
-.section-head .tag {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--moss);
-  white-space: nowrap;
 }
 
 .section-head h2 {
@@ -257,7 +259,7 @@ section.block + section.block {
   border-radius: var(--radius);
 }
 
-/* Publications */
+/* Publications — simple list, no date column */
 .pub-list {
   list-style: none;
   margin: 0;
@@ -269,26 +271,16 @@ section.block + section.block {
 .pub-list li {
   padding: 1.1rem 0;
   border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: 4.2rem 1fr;
-  gap: 1.2rem;
 }
 
 .pub-list li:last-child { border-bottom: 1px solid var(--line); }
 
-.pub-year {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--clay);
-  padding-top: 0.15rem;
-}
-
-.pub-entry p {
+.pub-list p {
   margin: 0;
   color: var(--bark);
 }
 
-.pub-entry .pub-venue {
+.pub-list .pub-venue {
   font-style: italic;
 }
 
@@ -402,14 +394,37 @@ footer a:hover { color: var(--clay); }
    Responsive
    ========================================================= */
 @media (max-width: 720px) {
+  .page-shell { grid-template-columns: 1fr; }
+  .site-nav {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: 1.1rem 1.5rem;
+  }
+  .site-nav ul {
+    flex-direction: row;
+    gap: 1.3rem;
+  }
+  .site-nav a {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    padding-left: 0;
+    padding-bottom: 2px;
+  }
+  .site-nav a:hover { border-left-color: transparent; border-bottom-color: var(--clay); }
+  .site-nav a[aria-current="page"] { border-left-color: transparent; border-bottom-color: var(--moss); }
+
   .hero { grid-template-columns: 1fr; padding-top: 3rem; }
   .hero-art { height: 160px; order: -1; opacity: 0.7; }
-  .site-nav ul { gap: 1.1rem; }
   .fact-strip { grid-template-columns: 1fr; gap: 1rem; }
   .pub-list li,
   .timeline li { grid-template-columns: 1fr; gap: 0.3rem; }
 }
 
 @media (max-width: 480px) {
-  .site-nav-inner { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .site-nav { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
 }
