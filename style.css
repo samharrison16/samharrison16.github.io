@@ -202,11 +202,13 @@ img { max-width: 100%; display: block; }
 
 .hero-photo {
   position: relative;
-  height: 280px;
+  width: 220px;
+  height: 220px;
   align-self: end;
-  border-radius: var(--radius);
+  border-radius: 50%;
   overflow: hidden;
   border: 1px solid var(--line);
+  justify-self: end;
 }
 .hero-photo img {
   width: 100%;
@@ -424,7 +426,7 @@ footer a:hover { color: var(--clay); }
   .site-nav a[aria-current="page"] { border-left-color: transparent; border-bottom-color: var(--moss); }
 
   .hero { grid-template-columns: 1fr; padding-top: 3rem; }
-  .hero-photo { height: 220px; order: -1; }
+  .hero-photo { width: 160px; height: 160px; order: -1; justify-self: start; }
   .pub-list li,
   .timeline li { grid-template-columns: 1fr; gap: 0.3rem; }
 }
